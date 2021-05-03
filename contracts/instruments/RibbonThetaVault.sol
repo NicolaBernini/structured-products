@@ -70,7 +70,7 @@ contract RibbonThetaVault is DSMath, OptionsVaultStorage {
 
     event CapSet(uint256 oldCap, uint256 newCap, address manager);
 
-    event ScheduleWithdraw(address account, uint256 withdrawID, uint256 amount);
+    event ScheduleWithdraw(address account, uint256 withdrawID, uint256 shares);
 
     event ScheduledWithdrawCompleted(
         address account,
@@ -298,6 +298,8 @@ contract RibbonThetaVault is DSMath, OptionsVaultStorage {
         queuedWithdrawShares = queuedWithdrawShares.add(shares);
 
         scheduledWithdrawals[msg.sender][_withdrawCounter] = shares;
+
+        emit ScheduleWithdraw(msg.sender, _withdrawCounter, shares);
     }
 
     /**
@@ -314,6 +316,8 @@ contract RibbonThetaVault is DSMath, OptionsVaultStorage {
         scheduledWithdrawals[msg.sender][withdrawID] = 0;
         queuedWithdrawShares = queuedWithdrawShares.sub(withdrawShares);
         uint256 withdrawAmount = _withdraw(withdrawShares);
+
+        emit ScheduledWithdrawCompleted(msg.sender, withdrawID, withdrawAmount);
 
         if (asset == WETH) {
             IWETH(WETH).withdraw(withdrawAmount);
