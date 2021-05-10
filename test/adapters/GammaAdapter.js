@@ -25,10 +25,9 @@ const UNISWAP_ROUTER = "0x7a250d5630B4cF539739dF2C5dAcb4c659F2488D";
 const OTOKEN_FACTORY = "0x7C06792Af1632E77cb27a558Dc0885338F4Bdf8E";
 const WETH_ADDRESS = "0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2";
 const USDC_ADDRESS = "0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48";
-// const WBTC_ADDRESS = "0x2260FAC5E5542a773Aa44fBCfeDf7C193bc2C599";
 const ETH_ADDRESS = constants.AddressZero;
 let owner, user, recipient;
-let ownerSigner;
+let ownerSigner, userSigner, recipientSigner;
 
 const PUT_OPTION_TYPE = 1;
 const CALL_OPTION_TYPE = 2;
@@ -125,9 +124,9 @@ describe("GammaAdapter", () => {
       const oTokenAddress = "0x60ad22806B89DD17B2ecfe220c3712A2c86dfFFE";
 
       const actualOTokenAddress = await this.adapter.lookupOToken([
-        constants.AddressZero,
+        WETH_ADDRESS,
         USDC_ADDRESS,
-        constants.AddressZero,
+        WETH_ADDRESS,
         "1614326400",
         parseEther("800"),
         CALL_OPTION_TYPE,
@@ -141,9 +140,9 @@ describe("GammaAdapter", () => {
       const oTokenAddress = "0x006583fEea92C695A9dE02C3AC2d4cd321f2F341";
 
       const actualOTokenAddress = await this.adapter.lookupOToken([
-        constants.AddressZero,
+        WETH_ADDRESS,
         USDC_ADDRESS,
-        constants.AddressZero,
+        USDC_ADDRESS,
         "1610697600",
         parseEther("800"),
         PUT_OPTION_TYPE,
