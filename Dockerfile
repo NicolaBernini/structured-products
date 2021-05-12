@@ -1,4 +1,5 @@
 FROM node
+RUN apt-get update
 RUN apt-get install yarn
 RUN npm install -g npm
 RUN npm install --save-dev hardhat
